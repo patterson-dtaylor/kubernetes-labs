@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  # A deployment's specification really only
+  # has a few useful options
+
+  # 1. How many copies of each pod do we want?
+  replicas: 2
+
+  #2. How do we want to update the pods?
+  #strategy: Recreate
+
+  #3. Which pods are manged by this deployment?
+  selector:
+    matchLabels:
+      app: nginx
+
+  # Template is like a deployment file within the deployment file
+  # Has its own metadata and spec sections which applies to a pod
+  # The blueprint of the pod
+  template:
+    metadata:
+      # Sets the labels on the pod.
+      # This is used in the deployment selector
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
